@@ -1,0 +1,83 @@
+/* Page background */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0f172a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Main chat container feel */
+body > * {
+    box-sizing: border-box;
+}
+
+/* Chat box */
+#chat-box {
+    width: 400px;
+    height: 500px;
+    background: #111827;
+    border-radius: 12px;
+    padding: 10px;
+    overflow-y: auto;
+    color: white;
+    margin-bottom: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+/* Messages */
+.message {
+    padding: 8px 10px;
+    margin: 5px 0;
+    border-radius: 8px;
+    max-width: 80%;
+    word-wrap: break-word;
+}
+
+/* Sent messages */
+.message.sent {
+    background: #3b82f6;
+    color: white;
+    margin-left: auto;
+    text-align: right;
+}
+
+/* Input area */
+input {
+    width: 260px;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    margin: 5px;
+    outline: none;
+}
+
+/* Button */
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    background: #22c55e;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background: #16a34a;
+}
+
+/* Username input special spacing */
+#username-input {
+    width: 380px;
+}
+
+/* received messages (other people) */
+.message.received {
+    background: #374151;
+    color: white;
+    margin-right: auto;
+    text-align: left;
+}
