@@ -1,34 +1,44 @@
-/* ===== GLOBAL ===== */
+/* ===== BACKGROUND ===== */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #0b1220;
     height: 100vh;
     display: flex;
+    background: linear-gradient(135deg, #ff6ec7, #6c63ff, #00d4ff);
+    background-size: 300% 300%;
+    animation: gradientMove 10s ease infinite;
     color: white;
 }
 
-/* ===== MAIN LAYOUT ===== */
+/* animated background */
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ===== LAYOUT ===== */
 #app {
     display: flex;
     width: 100%;
     height: 100vh;
+    backdrop-filter: blur(10px);
 }
 
 /* ===== USER LIST ===== */
 #user-list {
-    width: 200px;
-    background: #111827;
-    padding: 10px;
+    width: 220px;
+    background: rgba(0,0,0,0.25);
+    padding: 12px;
     overflow-y: auto;
-    border-right: 1px solid #1f2937;
+    border-right: 1px solid rgba(255,255,255,0.2);
 }
 
 #user-list div {
-    padding: 6px;
-    margin-bottom: 5px;
-    background: #1f2937;
-    border-radius: 6px;
+    background: rgba(255,255,255,0.15);
+    margin-bottom: 8px;
+    padding: 8px;
+    border-radius: 10px;
     font-size: 14px;
 }
 
@@ -39,28 +49,34 @@ body {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
 }
 
-/* ===== MESSAGES ===== */
+/* ===== MESSAGE BUBBLES ===== */
 .message {
-    padding: 10px 12px;
-    border-radius: 10px;
-    max-width: 60%;
-    word-wrap: break-word;
+    padding: 10px 14px;
+    border-radius: 18px;
+    max-width: 65%;
     font-size: 14px;
+    animation: pop 0.2s ease;
+}
+
+/* animation */
+@keyframes pop {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
 }
 
 /* YOUR MESSAGE */
 .message.sent {
-    background: #3b82f6;
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
     align-self: flex-end;
     text-align: right;
 }
 
 /* OTHER PEOPLE */
 .message.received {
-    background: #1f2937;
+    background: rgba(255,255,255,0.2);
     align-self: flex-start;
 }
 
@@ -68,39 +84,39 @@ body {
 #input-area {
     position: fixed;
     bottom: 0;
-    left: 200px;
+    left: 220px;
     right: 0;
     display: flex;
-    padding: 10px;
-    background: #0f172a;
-    border-top: 1px solid #1f2937;
     gap: 10px;
+    padding: 12px;
+    background: rgba(0,0,0,0.3);
+    backdrop-filter: blur(10px);
 }
 
-/* INPUTS */
+/* inputs */
 input {
     flex: 1;
-    padding: 10px;
+    padding: 12px;
     border: none;
-    border-radius: 8px;
+    border-radius: 12px;
     outline: none;
-    background: #1f2937;
-    color: white;
+    font-size: 14px;
 }
 
-/* BUTTON */
+/* button */
 button {
-    padding: 10px 15px;
+    padding: 12px 18px;
     border: none;
-    border-radius: 8px;
-    background: #22c55e;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #ffcc00, #ff6a00);
     color: white;
-    cursor: pointer;
     font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s;
 }
 
 button:hover {
-    background: #16a34a;
+    transform: scale(1.05);
 }
 
 /* ===== MOBILE ===== */
