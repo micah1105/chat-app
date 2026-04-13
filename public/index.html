@@ -7,21 +7,23 @@
 
 <body>
 
-<h2>Chat Room</h2>
+<div id="app">
 
-<!-- Username -->
-<input id="username-input" placeholder="Enter username" />
-<br><br>
+    <!-- USERS -->
+    <div id="user-list"></div>
 
-<!-- Chat box -->
-<div id="chat-box"></div>
-<br>
+    <!-- CHAT -->
+    <div id="chat-box"></div>
 
-<!-- Message input -->
-<input id="message-input" placeholder="Type message">
-<button id="send-btn">Send</button>
+</div>
 
-<!-- Scripts (IMPORTANT ORDER) -->
+<!-- INPUT AREA -->
+<div id="input-area">
+    <input id="username-input" placeholder="Username">
+    <input id="message-input" placeholder="Type message">
+    <button id="send-btn">Send</button>
+</div>
+
 <script src="/socket.io/socket.io.js"></script>
 <script src="app.js"></script>
 
