@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Fun Chat</title>
+    <title>Chat App</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -9,23 +9,28 @@
 
 <div id="app">
 
+    <!-- USERS -->
     <div id="user-list"></div>
 
+    <!-- CHAT -->
     <div id="chat-box"></div>
 
 </div>
 
+<!-- INPUT -->
 <div id="input-area">
 
-    <input id="username-input" placeholder="Username">
+    <input id="username-input" placeholder="Enter username">
 
-    <input id="message-input" placeholder="Type message">
+    <select id="room-select">
+        <option value="general">General</option>
+        <option value="gaming">Gaming</option>
+        <option value="school">School</option>
+    </select>
+
+    <input id="message-input" placeholder="Message">
 
     <button onclick="sendMessage()">Send</button>
-
-    <button onclick="addEmoji('😂')">😂</button>
-    <button onclick="addEmoji('🔥')">🔥</button>
-    <button onclick="addEmoji('❤️')">❤️</button>
 
 </div>
 
