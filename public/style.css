@@ -1,60 +1,94 @@
-/* Page background */
+/* ===== GLOBAL ===== */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #0f172a;
+    background: #0b1220;
+    height: 100vh;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    color: white;
+}
+
+/* ===== MAIN LAYOUT ===== */
+#app {
+    display: flex;
+    width: 100%;
     height: 100vh;
 }
 
-/* Main chat container feel */
-body > * {
-    box-sizing: border-box;
-}
-
-/* Chat box */
-#chat-box {
-    width: 400px;
-    height: 500px;
+/* ===== USER LIST ===== */
+#user-list {
+    width: 200px;
     background: #111827;
-    border-radius: 12px;
     padding: 10px;
     overflow-y: auto;
-    color: white;
-    margin-bottom: 10px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    border-right: 1px solid #1f2937;
 }
 
-/* Messages */
+#user-list div {
+    padding: 6px;
+    margin-bottom: 5px;
+    background: #1f2937;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+/* ===== CHAT BOX ===== */
+#chat-box {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* ===== MESSAGES ===== */
 .message {
-    padding: 8px 10px;
-    margin: 5px 0;
-    border-radius: 8px;
-    max-width: 80%;
+    padding: 10px 12px;
+    border-radius: 10px;
+    max-width: 60%;
     word-wrap: break-word;
+    font-size: 14px;
 }
 
-/* Sent messages */
+/* YOUR MESSAGE */
 .message.sent {
     background: #3b82f6;
-    color: white;
-    margin-left: auto;
+    align-self: flex-end;
     text-align: right;
 }
 
-/* Input area */
+/* OTHER PEOPLE */
+.message.received {
+    background: #1f2937;
+    align-self: flex-start;
+}
+
+/* ===== INPUT BAR ===== */
+#input-area {
+    position: fixed;
+    bottom: 0;
+    left: 200px;
+    right: 0;
+    display: flex;
+    padding: 10px;
+    background: #0f172a;
+    border-top: 1px solid #1f2937;
+    gap: 10px;
+}
+
+/* INPUTS */
 input {
-    width: 260px;
+    flex: 1;
     padding: 10px;
     border: none;
     border-radius: 8px;
-    margin: 5px;
     outline: none;
+    background: #1f2937;
+    color: white;
 }
 
-/* Button */
+/* BUTTON */
 button {
     padding: 10px 15px;
     border: none;
@@ -69,15 +103,18 @@ button:hover {
     background: #16a34a;
 }
 
-/* Username input special spacing */
-#username-input {
-    width: 380px;
-}
+/* ===== MOBILE ===== */
+@media (max-width: 600px) {
+    #user-list {
+        display: none;
+    }
 
-/* received messages (other people) */
-.message.received {
-    background: #374151;
-    color: white;
-    margin-right: auto;
-    text-align: left;
+    #input-area {
+        left: 0;
+        flex-direction: column;
+    }
+
+    button {
+        width: 100%;
+    }
 }
