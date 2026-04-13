@@ -3,58 +3,44 @@ const socket = io();
 const chatBox = document.getElementById("chat-box");
 const messageInput = document.getElementById("message-input");
 
-const sound = new Audio("https://www.myinstants.com/media/sounds/message-tone.mp3");
-
-// join chat
-function join() {
+// LOGIN
+function login() {
     const username = document.getElementById("username-input").value;
-    socket.emit("join", username);
+    if (!username) return;
+
+    socket.emit("login", username);
 }
 
-// send message
+// SEND MESSAGE
 function sendMessage() {
-    const message = messageInput.value;
-    const username = document.getElementById("username-input").value;
+    const text = messageInput.value;
+    if (!text) return;
 
-    if (!message || !username) return;
-
-    socket.emit("chat message", {
-        user: username,
-        text: message
-    });
-
+    socket.emit("chat message", { text });
     messageInput.value = "";
 }
 
-// emojis
-function addEmoji(e) {
-    messageInput.value += e;
-}
-
-// typing
-messageInput.addEventListener("input", () => {
-    const username = document.getElementById("username-input").value;
-    socket.emit("typing", username);
+// JOIN ROOM
+document.getElementById("room-select").addEventListener("change", (e) => {
+    socket.emit("join room", e.target.value);
 });
 
-// receive messages
+// TYPING
+messageInput.addEventListener("input", () => {
+    socket.emit("typing");
+});
+
+// RECEIVE MESSAGE
 socket.on("chat message", (msg) => {
-
-    sound.play();
-
     const div = document.createElement("div");
+
     div.classList.add("message");
 
-    const me = document.getElementById("username-input").value;
-    const isMe = msg.user === me;
-
-    div.classList.add(isMe ? "sent" : "received");
+    const currentUser = document.getElementById("username-input").value;
+    div.classList.add(msg.user === currentUser ? "sent" : "received");
 
     div.innerHTML = `
-        <span style="color:${msg.color}">
-            ● ${msg.user}
-        </span>
-        <br>
+        <b>${msg.user}</b><br>
         ${msg.text}
         <div style="font-size:10px; opacity:0.6;">
             ${msg.time}
@@ -65,24 +51,32 @@ socket.on("chat message", (msg) => {
     chatBox.scrollTop = chatBox.scrollHeight;
 });
 
-// user list
+// LOAD OLD MESSAGES
+socket.on("load messages", (msgs) => {
+    chatBox.innerHTML = "";
+    msgs.forEach(m => {
+        socket.emit("chat message", { text: m.text });
+    });
+});
+
+// USER LIST
 socket.on("user list", (users) => {
     const list = document.getElementById("user-list");
     list.innerHTML = "";
 
     Object.values(users).forEach(u => {
         const div = document.createElement("div");
-        div.textContent = "🟢 " + u.name;
+        div.textContent = "🟢 " + u;
         list.appendChild(div);
     });
 });
 
-// typing indicator
+// TYPING
 socket.on("typing", (user) => {
     const t = document.getElementById("typing");
     t.textContent = user + " is typing...";
     setTimeout(() => t.textContent = "", 1000);
 });
 
-// auto join when typing name
-document.getElementById("username-input").addEventListener("change", join);
+// auto login trigger
+document.getElementById("username-input").addEventListener("change", login);
