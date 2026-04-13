@@ -1,47 +1,88 @@
-// app.js
-
 const socket = io();
 
-const sendBtn = document.getElementById("send-btn");
-const messageInput = document.getElementById("message-input");
 const chatBox = document.getElementById("chat-box");
+const messageInput = document.getElementById("message-input");
 
-sendBtn.addEventListener("click", sendMessage);
+const sound = new Audio("https://www.myinstants.com/media/sounds/message-tone.mp3");
 
-messageInput.addEventListener("keypress", function(e) {
-    if (e.key === "Enter") {
-        sendMessage();
-    }
-});
-
-function sendMessage() {
-    const message = messageInput.value.trim();
-    const username = document.getElementById("username-input").value.trim();
-
-    if (message !== "" && username !== "") {
-        socket.emit("chat message", {
-            text: message,
-            user: username
-        });
-
-        messageInput.value = "";
-    }
+// join chat
+function join() {
+    const username = document.getElementById("username-input").value;
+    socket.emit("join", username);
 }
 
-socket.on("chat message", function(message) {
-    const messageElement = document.createElement("div");
+// send message
+function sendMessage() {
+    const message = messageInput.value;
+    const username = document.getElementById("username-input").value;
 
-    messageElement.classList.add("message");
+    if (!message || !username) return;
 
-    // check if it's your message
-    if (message.user === document.getElementById("username-input").value) {
-        messageElement.classList.add("sent");
-    } else {
-        messageElement.classList.add("received");
-    }
+    socket.emit("chat message", {
+        user: username,
+        text: message
+    });
 
-    messageElement.textContent = message.user + ": " + message.text;
+    messageInput.value = "";
+}
 
-    chatBox.appendChild(messageElement);
+// emojis
+function addEmoji(e) {
+    messageInput.value += e;
+}
+
+// typing
+messageInput.addEventListener("input", () => {
+    const username = document.getElementById("username-input").value;
+    socket.emit("typing", username);
+});
+
+// receive messages
+socket.on("chat message", (msg) => {
+
+    sound.play();
+
+    const div = document.createElement("div");
+    div.classList.add("message");
+
+    const me = document.getElementById("username-input").value;
+    const isMe = msg.user === me;
+
+    div.classList.add(isMe ? "sent" : "received");
+
+    div.innerHTML = `
+        <span style="color:${msg.color}">
+            ● ${msg.user}
+        </span>
+        <br>
+        ${msg.text}
+        <div style="font-size:10px; opacity:0.6;">
+            ${msg.time}
+        </div>
+    `;
+
+    chatBox.appendChild(div);
     chatBox.scrollTop = chatBox.scrollHeight;
 });
+
+// user list
+socket.on("user list", (users) => {
+    const list = document.getElementById("user-list");
+    list.innerHTML = "";
+
+    Object.values(users).forEach(u => {
+        const div = document.createElement("div");
+        div.textContent = "🟢 " + u.name;
+        list.appendChild(div);
+    });
+});
+
+// typing indicator
+socket.on("typing", (user) => {
+    const t = document.getElementById("typing");
+    t.textContent = user + " is typing...";
+    setTimeout(() => t.textContent = "", 1000);
+});
+
+// auto join when typing name
+document.getElementById("username-input").addEventListener("change", join);
