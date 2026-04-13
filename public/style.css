@@ -1,68 +1,170 @@
+/* ===== BACKGROUND ===== */
 body {
     margin: 0;
-    font-family: Arial;
-    background: linear-gradient(135deg, #ff6ec7, #6c63ff, #00d4ff);
-    background-size: 300% 300%;
-    animation: bg 10s infinite;
+    font-family: "Segoe UI", Arial, sans-serif;
+    height: 100vh;
+    overflow: hidden;
     color: white;
+
+    background: linear-gradient(135deg, #ff4ecd, #7c4dff, #00d4ff);
+    background-size: 300% 300%;
+    animation: gradientMove 12s ease infinite;
 }
 
-@keyframes bg {
+@keyframes gradientMove {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
 
+/* ===== MAIN LAYOUT ===== */
 #app {
     display: flex;
     height: 100vh;
+    backdrop-filter: blur(12px);
 }
 
+/* ===== USER LIST ===== */
 #user-list {
-    width: 180px;
-    background: rgba(0,0,0,0.3);
-    padding: 10px;
+    width: 220px;
+    background: rgba(0,0,0,0.35);
+    padding: 12px;
+    overflow-y: auto;
+    border-right: 1px solid rgba(255,255,255,0.1);
 }
 
+#user-list div {
+    background: rgba(255,255,255,0.12);
+    margin-bottom: 8px;
+    padding: 10px;
+    border-radius: 12px;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+#user-list div:hover {
+    transform: scale(1.03);
+    background: rgba(255,255,255,0.2);
+}
+
+/* ===== CHAT AREA ===== */
 #chat-box {
     flex: 1;
-    padding: 10px;
+    padding: 16px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
+/* ===== MESSAGE BUBBLES ===== */
 .message {
-    padding: 10px;
-    border-radius: 15px;
-    max-width: 60%;
+    padding: 12px 14px;
+    border-radius: 18px;
+    max-width: 65%;
+    font-size: 14px;
+    line-height: 1.4;
+    animation: pop 0.2s ease;
+    word-wrap: break-word;
 }
 
+/* animation */
+@keyframes pop {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* YOUR MESSAGE */
 .message.sent {
-    background: #00c6ff;
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
     align-self: flex-end;
+    border-bottom-right-radius: 5px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
+/* OTHER PEOPLE */
 .message.received {
-    background: rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.15);
     align-self: flex-start;
+    border-bottom-left-radius: 5px;
+    backdrop-filter: blur(6px);
 }
 
+/* ===== INPUT AREA ===== */
 #input-area {
     position: fixed;
     bottom: 0;
-    left: 180px;
+    left: 220px;
     right: 0;
+
     display: flex;
     gap: 10px;
-    padding: 10px;
-    background: rgba(0,0,0,0.3);
+    padding: 12px;
+
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(255,255,255,0.1);
 }
 
+/* INPUTS */
 input, select {
     flex: 1;
-    padding: 10px;
-    border-radius: 10px;
+    padding: 12px;
+    border-radius: 12px;
     border: none;
+    outline: none;
+    background: rgba(255,255,255,0.15);
+    color: white;
+    font-size: 14px;
+}
+
+input::placeholder {
+    color: rgba(255,255,255,0.7);
+}
+
+/* BUTTON */
+button {
+    padding: 12px 16px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #ffcc00, #ff6a00);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+button:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+}
+
+/* ===== TYPING INDICATOR ===== */
+#typing {
+    position: fixed;
+    bottom: 70px;
+    left: 240px;
+    font-size: 13px;
+    opacity: 0.8;
+    font-style: italic;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 600px) {
+    #user-list {
+        display: none;
+    }
+
+    #input-area {
+        left: 0;
+        flex-direction: column;
+    }
+
+    button {
+        width: 100%;
+    }
+
+    #typing {
+        left: 10px;
+    }
 }
