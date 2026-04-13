@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Chat Room</title>
+    <title>Fun Chat</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -9,20 +9,27 @@
 
 <div id="app">
 
-    <!-- USERS -->
     <div id="user-list"></div>
 
-    <!-- CHAT -->
     <div id="chat-box"></div>
 
 </div>
 
-<!-- INPUT AREA -->
 <div id="input-area">
+
     <input id="username-input" placeholder="Username">
+
     <input id="message-input" placeholder="Type message">
-    <button id="send-btn">Send</button>
+
+    <button onclick="sendMessage()">Send</button>
+
+    <button onclick="addEmoji('😂')">😂</button>
+    <button onclick="addEmoji('🔥')">🔥</button>
+    <button onclick="addEmoji('❤️')">❤️</button>
+
 </div>
+
+<div id="typing"></div>
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="app.js"></script>
